@@ -1,0 +1,5 @@
+group,metric,format,kw_start,kw_end,ext,freq
+Financials,is,json,var originalData = ,}],income-statement,?freq=Q
+Financials,bs,json,var originalData = ,}],balance-sheet,?freq=Q
+Financials,cf,json,var originalData = ,}],cash-flow-statement,?freq=Q
+Financials,ratios,json,var originalData = ,}],financial-ratios,?freq=Q
