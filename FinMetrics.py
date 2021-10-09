@@ -50,6 +50,18 @@ class Metrics:
             kw_start = self.tick_meta['kw_start']
             self.find_tables(kw_start)
         return self.ticker_metric_df
+    def fetch_append(self, tickers, metrics):
+        df = pd.DataFrame()
+        for t in tickers:
+            _df = pd.DataFrame()
+            for m in metrics:
+                if _df.empty == True:
+                    _df = self.fetch(t, m)
+                else:
+                    _ = self.fetch(t, m)
+                    _df = pd.merge(_df, _, how='outer', on=['date', 'ticker'])
+            df = df.append(_df,  ignore_index=True)
+        return df
 
     def create_url(self):
         base = self.tick_info['full_url']
@@ -89,6 +101,7 @@ class Metrics:
         df = df.transpose()
         df['date'] = df.index
         df = df.reset_index()
+        df['ticker'] = self.ticker
         self.ticker_metric_df = df
     def parse_date(self):
         pass
