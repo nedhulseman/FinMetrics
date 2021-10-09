@@ -3,3 +3,10 @@ Financials,is,json,var originalData = ,}],income-statement,?freq=Q
 Financials,bs,json,var originalData = ,}],balance-sheet,?freq=Q
 Financials,cf,json,var originalData = ,}],cash-flow-statement,?freq=Q
 Financials,ratios,json,var originalData = ,}],financial-ratios,?freq=Q
+Revenue & Profit,revenue,html,Quarterly Revenue,,revenue,
+Revenue & Profit,gross_prof,html,Quarterly Gross Profit,,gross-profit,
+Revenue & Profit,operating_income,html,Quarterly Operating Income,,operating-income,
+Revenue & Profit,ebitda,html,Quarterly EBITDA,,ebitda,
+Revenue & Profit,net_income,html,Quarterly Net Income,,net-income,
+Revenue & Profit,eps,html,Quarterly EPS,,eps-earnings-per-share-diluted,
+Revenue & Profit,shares_outstanding,html,Quarterly Shares Outstanding,,shares-outstanding,
