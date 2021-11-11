@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import requests
 import re
 import os
@@ -49,18 +50,36 @@ class Metrics:
         elif self.tick_meta['format']=='html':
             kw_start = self.tick_meta['kw_start']
             self.find_tables(kw_start)
+        if self.tick_meta['col_names'] == 'change':
+            self.ticker_metric_df.columns = ['date', metric]
+        self.ticker_metric_df['ticker'] = ticker
         return self.ticker_metric_df
     def fetch_append(self, tickers, metrics):
         df = pd.DataFrame()
         for t in tickers:
+            print('------------------- Pulling tickers for {}'.format(t))
             _df = pd.DataFrame()
             for m in metrics:
+                print('... Pulling Ticker: {}, Metric: {}'.format(t, m))
                 if _df.empty == True:
                     _df = self.fetch(t, m)
+                    _df['ticker_id'] = t
                 else:
                     _ = self.fetch(t, m)
+                    _['ticker_id'] = t
                     _df = pd.merge(_df, _, how='outer', on=['date', 'ticker'])
             df = df.append(_df,  ignore_index=True)
+            df = df.loc[df['date']!= 'popup_icon']
+        index_cols = ['date', 'ticker']
+        cols_to_keep = [i for i in df.columns if all(kw not in i for kw in ['_y', '_x']+index_cols)]
+        df = df[index_cols + cols_to_keep]
+        df = df.replace('', np.nan)
+        for c in cols_to_keep:
+            df[c] = df[c].astype(str).str.replace(',', '', regex=True)
+            df[c] = df[c].astype(str).str.replace('$', '', regex=True)
+        print(df.revenue.head())
+        df[cols_to_keep] = df[cols_to_keep].astype(float)
+
         return df
 
     def create_url(self):
@@ -68,8 +87,6 @@ class Metrics:
         ext = self.tick_meta['ext']
         freq = self.tick_meta['freq']
         self.tick_url = base + ext + freq
-        print(type(self.tick_url))
-        print(self.tick_url)
     def request_html(self):
         self.html = requests.get(self.tick_url)
         self.text_html = self.html.text
@@ -78,7 +95,6 @@ class Metrics:
         dfs = pd.read_html(self.text_html)
         matched_dfs = []
         for d in dfs:
-            print(d.columns)
             for c in list(d.columns):
                 if kw in c:
                     matched_dfs.append(d)
@@ -105,3 +121,13 @@ class Metrics:
         self.ticker_metric_df = df
     def parse_date(self):
         pass
+
+if __name__ == '__main__':
+    #-- test for top 25
+    d = Metrics()
+
+    ticks = d.stock_df.loc[0:25, 'ticker'].tolist()
+    ticks = ['AAPL', 'MSFT', 'NVDA']
+    metrics = d.meta_metrics['metric'].tolist()
+    df = d.fetch_append(ticks, metrics)
+    df.to_csv('./test.csv', index=False)

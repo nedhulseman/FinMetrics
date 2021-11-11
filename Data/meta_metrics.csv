@@ -1,17 +1,17 @@
-group,metric,format,kw_start,kw_end,ext,freq
-Financials,is,json,var originalData = ,}],income-statement,?freq=Q
-Financials,bs,json,var originalData = ,}],balance-sheet,?freq=Q
-Financials,cf,json,var originalData = ,}],cash-flow-statement,?freq=Q
-Financials,ratios,json,var originalData = ,}],financial-ratios,?freq=Q
-Revenue & Profit,revenue,html,Quarterly Revenue,,revenue,
-Revenue & Profit,gross_prof,html,Quarterly Gross Profit,,gross-profit,
-Revenue & Profit,operating_income,html,Quarterly Operating Income,,operating-income,
-Revenue & Profit,ebitda,html,Quarterly EBITDA,,ebitda,
-Revenue & Profit,net_income,html,Quarterly Net Income,,net-income,
-Revenue & Profit,eps,html,Quarterly EPS,,eps-earnings-per-share-diluted,
-Revenue & Profit,shares_outstanding,html,Quarterly Shares Outstanding,,shares-outstanding,
-Assets & Liabilities,total_assets,html,Quarterly Total Assets,,total-assets,
-Assets & Liabilities,cash_on_hand,html,Quarterly Cash on Hand,,cash-on-hand,
-Assets & Liabilities,long_term_debt,html,Quarterly Long Term Debt,,long-term-debt,
-Assets & Liabilities,total_liabilities,html,Quarterly Total Liabilities,,total-liabilities,
-Assets & Liabilities,share_holder_equity,html,Quarterly Share Holder Equity,,total-share-holder-equity,
+group,metric,format,kw_start,kw_end,ext,freq,col_names
+Financials,is,json,var originalData = ,}],income-statement,?freq=Q,no_change
+Financials,bs,json,var originalData = ,}],balance-sheet,?freq=Q,no_change
+Financials,cf,json,var originalData = ,}],cash-flow-statement,?freq=Q,no_change
+Financials,ratios,json,var originalData = ,}],financial-ratios,?freq=Q,no_change
+Revenue & Profit,revenue,html,Quarterly Revenue,,revenue,,change
+Revenue & Profit,gross_prof,html,Quarterly Gross Profit,,gross-profit,,change
+Revenue & Profit,operating_income,html,Quarterly Operating Income,,operating-income,,change
+Revenue & Profit,ebitda,html,Quarterly EBITDA,,ebitda,,change
+Revenue & Profit,net_income,html,Quarterly Net Income,,net-income,,change
+Revenue & Profit,eps,html,Quarterly EPS,,eps-earnings-per-share-diluted,,change
+Revenue & Profit,shares_outstanding,html,Quarterly Shares Outstanding,,shares-outstanding,,change
+Assets & Liabilities,total_assets,html,Quarterly Total Assets,,total-assets,,change
+Assets & Liabilities,cash_on_hand,html,Quarterly Cash on Hand,,cash-on-hand,,change
+Assets & Liabilities,long_term_debt,html,Quarterly Long Term Debt,,long-term-debt,,change
+Assets & Liabilities,total_liabilities,html,Quarterly Total Liabilities,,total-liabilities,,change
+Assets & Liabilities,share_holder_equity,html,Quarterly Share Holder Equity,,total-share-holder-equity,,change

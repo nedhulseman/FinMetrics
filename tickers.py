@@ -89,7 +89,7 @@ class Tickers:
         }
         self.top_stocks = self.top_stocks.rename(columns = rename_topstocks)
         self.top_stocks['mt_name'] = self.top_stocks['full_url'].apply(lambda x:  re.search("/(.*?)/stock-price-history", x).group(1))
-        self.top_stocks['full_url'] = self.top_stocks['full_url'].str.replace('stock-price-history', '').str.replace('//', '/')
+        self.top_stocks['full_url'] = self.top_stocks['full_url'].str.replace('stock-price-history', '').str.replace('t//', 't/')
         self.top_stocks = self.top_stocks[list(rename_topstocks.values()) + ['mt_name']]
         stocks = pd.concat([self.top_stocks, stocks], axis=0, ignore_index=True)
 
