@@ -1,0 +1,7 @@
+ date, amount, currency, transaction_id, transaction_type, sender_name, sender_bank_name, bene_name, bene_bank_name
+1/10/2021,10,USD,100000001,102,Fake Company,Shady Bank,Wallmart,Sorta Shady Bank?
+1/10/2021,11,USD,1000000012,102,This is a Front LLC,Shady Bank,Wallmart,Sorta Shady Bank?
+1/10/2021,9,USD,100000003,102,This is not a front LLC,Shady Bank,Wallmart,Sorta Shady Bank?
+1/10/2021,8,USD,100000004,102,Please dont freeze my assets SA,Shady Bank,Wallmart,Sorta Shady Bank?
+1/10/2021,100,USD,100000005,102,Legit biz,Shady Bank,Wallmart,Sorta Shady Bank?
+1/10/2021,1000,USD,100000006,102,biz,Shady Bank,Wallmart,Sorta Shady Bank?

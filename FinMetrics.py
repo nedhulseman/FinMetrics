@@ -56,20 +56,27 @@ class Metrics:
         return self.ticker_metric_df
     def fetch_append(self, tickers, metrics):
         df = pd.DataFrame()
-        for t in tickers:
-            print('------------------- Pulling tickers for {}'.format(t))
+        for i, t in enumerate(tickers):
+            print('------------------- Pulling tickers for {}, #{}'.format(t, i))
             _df = pd.DataFrame()
             for m in metrics:
-                print('... Pulling Ticker: {}, Metric: {}'.format(t, m))
-                if _df.empty == True:
-                    _df = self.fetch(t, m)
-                    _df['ticker_id'] = t
-                else:
-                    _ = self.fetch(t, m)
-                    _['ticker_id'] = t
-                    _df = pd.merge(_df, _, how='outer', on=['date', 'ticker'])
-            df = df.append(_df,  ignore_index=True)
-            df = df.loc[df['date']!= 'popup_icon']
+                #print('... Pulling Ticker: {}, Metric: {}'.format(t, m))
+                try:
+                    if _df.empty == True:
+                        _df = self.fetch(t, m)
+                        #_df['ticker_id'] = t
+                    else:
+                        _ = self.fetch(t, m)
+                        #_['ticker_id'] = t
+                        _df = pd.merge(_df, _, how='outer', on=['date', 'ticker'])
+                except ValueError:
+                    print('ticker: {} & Metric: {} was not able to be queried from MacroTrends'.format(t, m))
+            if _df.shape[0] != 0:
+                #if df.shape[0] > 0:
+                #   return df, _df
+                _df = _df[[i for i in _df.columns if 'index' not in i]]
+                df = pd.concat([df, _df],  ignore_index=True, axis=0)
+                df = df.loc[df['date']!= 'popup_icon']
         index_cols = ['date', 'ticker']
         cols_to_keep = [i for i in df.columns if all(kw not in i for kw in ['_y', '_x']+index_cols)]
         df = df[index_cols + cols_to_keep]
@@ -77,7 +84,6 @@ class Metrics:
         for c in cols_to_keep:
             df[c] = df[c].astype(str).str.replace(',', '', regex=True)
             df[c] = df[c].astype(str).str.replace('$', '', regex=True)
-        print(df.revenue.head())
         df[cols_to_keep] = df[cols_to_keep].astype(float)
 
         return df
@@ -88,7 +94,10 @@ class Metrics:
         freq = self.tick_meta['freq']
         self.tick_url = base + ext + freq
     def request_html(self):
-        self.html = requests.get(self.tick_url)
+        try:
+            self.html = requests.get(self.tick_url)
+        except:
+            raise ValueError('Failed to request from Macrotrends...')
         self.text_html = self.html.text
         self.soup = BeautifulSoup(self.html.text, 'html.parser')
     def find_tables(self, kw):
@@ -122,12 +131,14 @@ class Metrics:
     def parse_date(self):
         pass
 
-if __name__ == '__main__':
-    #-- test for top 25
-    d = Metrics()
+'''
+#-- test for top 25
+from FinMetrics import Metrics
+d = Metrics()
 
-    ticks = d.stock_df.loc[0:25, 'ticker'].tolist()
-    ticks = ['AAPL', 'MSFT', 'NVDA']
-    metrics = d.meta_metrics['metric'].tolist()
-    df = d.fetch_append(ticks, metrics)
-    df.to_csv('./test.csv', index=False)
+#ticks = d.stock_df.loc[0:25, 'ticker'].tolist()
+ticks = ['EBR', 'AAPL']
+metrics = d.meta_metrics['metric'].tolist()
+df, _df = d.fetch_append(ticks, metrics)
+df.to_csv('./test.csv', index=False)
+'''
