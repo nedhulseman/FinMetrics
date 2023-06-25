@@ -16,7 +16,10 @@ if __name__ == '__main__':
     start = time.time()
     d = Metrics()
 
-    ticks = d.stock_df.loc[100:1000, 'ticker'].unique().tolist()
+    ticks = d.stock_df.loc[2000:, 'ticker'].unique().tolist()
+    tick_df = pd.read_csv('missing_ticks.csv')
+    ticks = tick_df['ticks'].tolist()
+
     print(len(ticks))
     #ticks = ['AAPL', 'MSFT', 'NVDA', 'ITCB', 'SG']
     metrics = d.meta_metrics['metric'].tolist()
@@ -24,7 +27,7 @@ if __name__ == '__main__':
     df['date_asdate'] = pd.to_datetime(df['date'])
     df=df.sort_values(by=['date_asdate'])
 
-    prices = Price(ticks, [2005,1,1], [2021,11,1])
+    prices = Price(ticks, [2005,1,1], [2024,11,1])
     prices = prices.rename(columns={'date':'price_date'})
     prices['price_date_asdate'] = pd.to_datetime(prices['price_date'])
     prices=prices.sort_values(by=['price_date_asdate'])
@@ -36,4 +39,4 @@ if __name__ == '__main__':
     t_per_tick = round(t/ len(ticks), 2)
     print('Data query took: {} minutes or {} seconds per ticker.'.format(round(t/60,2), t_per_tick))
     #df = pd.merge(df, prices, how='left', on=['ticker', 'date'])
-    df.to_csv('./stocks100-1000.csv', index=False)
+    df.to_csv('./stocks2000-.csv', index=False)
